@@ -1,0 +1,42 @@
+{
+  "name": "@lambda-lambda-lambda/swagger-converter",
+  "description": "Convert a Swagger/OpenAPI schema to a new L³ application.",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "compile": "tsc -p ./",
+    "lint": "eslint src test --ext .js,.ts,.tsx",
+    "prepack": "npm run compile",
+    "test": "npm run compile && mocha --require test/mocha.env.js 'test/**/*.js'",
+    "watch": "tsc -watch -p ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lambda-lambda-lambda/swagger-converter.git"
+  },
+  "keywords": [
+    "lambda-lambda-lambda",
+    "typescript",
+    "tools",
+    "swagger",
+    "converter"
+  ],
+  "bugs": {
+    "url": "https://github.com/lambda-lambda-lambda/swagger-converter/issues"
+  },
+  "homepage": "https://github.com/lambda-lambda-lambda/swagger-converter#readme",
+  "author": "Marc S. Brooks <devel@mbrooks.info> (https://mbrooks.info)",
+  "license": "MIT",
+  "dependencies": {
+    "@lambda-lambda-lambda/cli": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "chai": "^4.4.1",
+    "eslint": "^8.57.0",
+    "mocha": "^10.4.0",
+    "typescript": "^5.4.5"
+  }
+}

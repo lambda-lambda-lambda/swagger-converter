@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "Arjun.swagger-viewer",
+    "DavidAnson.vscode-markdownlint",
+    "dbaeumer.vscode-eslint",
+    "donjayamanne.githistory"
+  ]
+}
