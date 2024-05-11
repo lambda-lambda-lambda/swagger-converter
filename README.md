@@ -1,6 +1,6 @@
 # L³ Swagger converter
 
-Convert a Swagger/OpenAPI schema to a new [L³](https://github.com/lambda-lambda-lambda) application. :warning: Work In Progress :warning:
+Convert a [Swagger/OpenAPI schema](https://swagger.io/docs/specification/basic-structure) to a new [L³](https://github.com/lambda-lambda-lambda) application. :warning: Work In Progress :warning:
 
 ## Dependencies
 
