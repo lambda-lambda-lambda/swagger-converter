@@ -28,9 +28,11 @@
   "author": "Marc S. Brooks <devel@mbrooks.info> (https://mbrooks.info)",
   "license": "MIT",
   "dependencies": {
-    "@lambda-lambda-lambda/cli": "latest"
+    "@apidevtools/swagger-parser": "^10.1.0",
+    "@lambda-lambda-lambda/cli": "0.6.3"
   },
   "devDependencies": {
+    "@lambda-lambda-lambda/types": "^0.0.1",
     "@types/node": "^20.12.7",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",

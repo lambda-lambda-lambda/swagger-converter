@@ -1,0 +1,515 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "custom-api-handler",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "{AppUrl}",
+      "variables": {
+        "AppUrl": {
+          "default": "http://localhost:3000"
+        }
+      }
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "paths": {
+    "/example": {
+      "get": {
+        "description": "Example using `Route.index` handler alias.",
+        "responses": {
+          "200": {
+            "description": "Returns JSON response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public route"
+        ]
+      },
+      "post": {
+        "description": "Example using `Route.submit` handler alias.",
+        "responses": {
+          "200": {
+            "description": "Returns JSON response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          }
+        },
+        "tags": [
+          "Public route"
+        ]
+      }
+    },
+    "/example/{resourceId}": {
+      "put": {
+        "description": "Example using `Route.create` handler alias.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resourceId",
+            "schema": {
+              "type": "string"
+            },
+            "example": 123456,
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Returns JSON response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          }
+        },
+        "tags": [
+          "Public route"
+        ]
+      },
+      "patch": {
+        "description": "Example using `Route.update` handler alias.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resourceId",
+            "schema": {
+              "type": "string"
+            },
+            "example": 123456,
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns JSON response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          }
+        },
+        "tags": [
+          "Public route"
+        ]
+      },
+      "delete": {
+        "description": "Example using `Route.delete` handler method.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resourceId",
+            "schema": {
+              "type": "string"
+            },
+            "example": 123456,
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns JSON response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          }
+        },
+        "tags": [
+          "Public route"
+        ]
+      }
+    },
+    "/example/private": {
+      "get": {
+        "description": "Example using `Route.index` handler alias.",
+        "responses": {
+          "200": {
+            "description": "Returns JSON response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Protected route"
+        ]
+      },
+      "post": {
+        "description": "Example using `Route.submit` handler alias.",
+        "responses": {
+          "200": {
+            "description": "Returns JSON response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Protected route"
+        ]
+      }
+    },
+    "/example/private/{resourceId}": {
+      "put": {
+        "description": "Example using `Route.create` handler alias.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resourceId",
+            "schema": {
+              "type": "string"
+            },
+            "example": 123456,
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Returns JSON response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Protected route"
+        ]
+      },
+      "patch": {
+        "description": "Example using `Route.update` handler alias.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resourceId",
+            "schema": {
+              "type": "string"
+            },
+            "example": 123456,
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns JSON response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Protected route"
+        ]
+      },
+      "delete": {
+        "description": "Example using `Route.delete` handler method.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resourceId",
+            "schema": {
+              "type": "string"
+            },
+            "example": 123456,
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns JSON response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Protected route"
+        ]
+      }
+    },
+    "/example/private/image": {
+      "get": {
+        "description": "Example using `Route.index` handler alias.",
+        "responses": {
+          "200": {
+            "description": "Returns binary string.",
+            "content": {
+              "image/png": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "image/png; charset=utf-8"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "tags": [
+          "Protected image"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

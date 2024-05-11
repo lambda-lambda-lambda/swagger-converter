@@ -31,7 +31,7 @@
     ],
     "max-depth": [
       1,
-      3
+      6
     ],
     "new-cap": 0,
     "no-extend-native": 2,
