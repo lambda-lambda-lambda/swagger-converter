@@ -7,8 +7,11 @@
  *  http://www.opensource.org/licenses/mit-license.php
  */
 
-import {OpenAPIV3} from 'openapi-types';
+import {OpenAPI, OpenAPIV3} from 'openapi-types';
 
 type valueof<T> = T[keyof T];
 
-export type HttpMethod = valueof<OpenAPIV3.HttpMethods>;
+export type Document        = OpenAPI.Document;
+export type OperationObject = OpenAPI.Operation;
+export type ResponseObject  = OpenAPIV3.ResponseObject;
+export type HttpMethod      = valueof<OpenAPIV3.HttpMethods>;

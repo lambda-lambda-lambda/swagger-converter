@@ -8,7 +8,6 @@
  */
 
 import {camelCase, paramCase, pascalCase} from 'change-case';
-import {OpenAPI, OpenAPIV3}               from 'openapi-types';
 import SwaggerParser                      from '@apidevtools/swagger-parser';
 
 import * as fs   from 'fs';
@@ -18,7 +17,7 @@ import {createFiles} from '@lambda-lambda-lambda/cli/dist/generator';
 import {AppConfig}   from '@lambda-lambda-lambda/types/cli';
 
 // Local modules
-import {HttpMethod} from './types';
+import * as OpenAPI from './types';
 
 /**
  * Create app sources, convert paths to routes/resources.
@@ -63,11 +62,11 @@ export async function createApp(file: string, outPath: string = './'): Promise<v
       const pathItemObj = pathsObj[pattern];
 
       for (let method in pathItemObj) {
-        const operationObj = pathItemObj[method as keyof HttpMethod] as OpenAPIV3.OperationObject;
+        const operationObj = pathItemObj[method as keyof OpenAPI.HttpMethod] as OpenAPI.OperationObject;
         const responses = operationObj?.responses;
 
         for (let code in responses) {
-          const responseObj = responses[code] as OpenAPIV3.ResponseObject;
+          const responseObj = responses[code] as OpenAPI.ResponseObject;
           const content = responseObj?.content;
 
           for (let mimeType in content) {
