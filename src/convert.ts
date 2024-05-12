@@ -51,7 +51,7 @@ export async function createApp(file: string, outPath: string = './'): Promise<v
       const filePath: string = path.dirname(pattern);
       const fileName: string = pascalCase(path.basename(pattern)) + '.js';
 
-      const outDir = `${outPath}/${paramCase(name)}/${camelCase(name)}/src/routes/${filePath}`;
+      const outDir = `${outPath}/${paramCase(name)}/${name}/src/routes/${filePath}`;
 
       !fs.existsSync(outDir) && fs.mkdirSync(outDir, {recursive: true});
 
