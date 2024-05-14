@@ -17,16 +17,16 @@ import {createFiles} from '@lambda-lambda-lambda/cli/dist/generator';
 import {AppConfig}   from '@lambda-lambda-lambda/types/cli';
 
 // Local modules
-import * as OpenAPI from './types';
+import {ApiSchema} from './types';
 
 /**
  * Create app sources, convert paths to routes/resources.
  */
 export async function createApp(file: string, outPath: string = './'): Promise<void> {
   try {
-    const schema: OpenAPI.Document = await SwaggerParser.parse(file);
-    const infoObj: OpenAPI.Document['info'] = schema.info;
-    const pathsObj: OpenAPI.Document['paths'] = schema.paths;
+    const docObject: ApiSchema.Document = await SwaggerParser.parse(file);
+    const infoObj:   ApiSchema.Document['info'] = docObject.info;
+    const pathsObj:  ApiSchema.Document['paths'] = docObject.paths;
 
     const name: string = (isValidName(infoObj.title))
       ? camelCase(infoObj.title)
@@ -62,11 +62,11 @@ export async function createApp(file: string, outPath: string = './'): Promise<v
       const pathItemObj = pathsObj[pattern];
 
       for (let method in pathItemObj) {
-        const operationObj = pathItemObj[method as keyof OpenAPI.HttpMethod] as OpenAPI.OperationObject;
+        const operationObj = pathItemObj[method as keyof ApiSchema.HttpMethod] as ApiSchema.OperationObject;
         const responses = operationObj?.responses;
 
         for (let code in responses) {
-          const responseObj = responses[code] as OpenAPI.ResponseObject;
+          const responseObj = responses[code] as ApiSchema.ResponseObject;
           const content = responseObj?.content;
 
           for (let mimeType in content) {

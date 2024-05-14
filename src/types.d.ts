@@ -11,7 +11,9 @@ import {OpenAPI, OpenAPIV3} from 'openapi-types';
 
 type valueof<T> = T[keyof T];
 
-export type Document        = OpenAPI.Document;
-export type OperationObject = OpenAPI.Operation;
-export type ResponseObject  = OpenAPIV3.ResponseObject;
-export type HttpMethod      = valueof<OpenAPIV3.HttpMethods>;
+export declare namespace ApiSchema {
+  export type Document        = OpenAPI.Document;
+  export type OperationObject = OpenAPI.Operation;
+  export type ResponseObject  = OpenAPIV3.ResponseObject;
+  export type HttpMethod      = valueof<OpenAPIV3.HttpMethods>;
+}
