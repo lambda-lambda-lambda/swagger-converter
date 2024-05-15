@@ -17,7 +17,7 @@ import {createFiles} from '@lambda-lambda-lambda/cli/dist/generator';
 import {AppConfig}   from '@lambda-lambda-lambda/types/cli';
 
 // Local modules
-import {ApiSchema} from './types';
+import {ApiSchema, RouteConfigItem} from './types';
 
 /**
  * Create app sources, convert paths to routes/resources.
@@ -54,7 +54,7 @@ export async function createApp(file: string, outPath: string = './'): Promise<v
 
       !fs.existsSync(outDir) && fs.mkdirSync(outDir, {recursive: true});
 
-      const routeBlocks: string[] = [];
+      const routeConfigItems: string[] = [];
 
       //
       // O-hoy mate'y! Thar be (𝑛) recursion ahead..
@@ -70,43 +70,64 @@ export async function createApp(file: string, outPath: string = './'): Promise<v
           const content = responseObj?.content;
 
           for (let mimeType in content) {
-            routeBlocks.push(`
+
+            // Generate block from template.
+            const routeItem: string = genRouteItem({
+              routePath: pattern,
+              requestMethod: method,
+              operationDesc: operationObj?.description,
+              responseDesc: responseObj?.description,
+              responseType: mimeType,
+              responseCode: code
+            });
+
+            routeConfigItems.push(routeItem);
+          }
+        }
+      }
+
+      const blocks = routeConfigItems.join(',\n');
+
+      fs.writeFileSync(
+        `${outDir}/${fileName}`,
+        `'use strict';\n\nmodule.exports = {\n${blocks}\n};\n`,
+        'utf8'
+      );
+    }
+
+  } catch (err) {
+    console.error('Failed to parse file',err);
+  }
+}
+
+/**
+ * Generate a route config item (output block).
+ */
+function genRouteItem(vars: RouteConfigItem): string {
+  return `
   /**
    * @openapi
    *
-   * ${pattern}:
-   *   ${method}:
-   *     description: ${operationObj?.description}
+   * ${vars.routePath}:
+   *   ${vars.requestMethod}:
+   *     description: ${vars?.operationDesc}
    *     responses:
-   *       ${code}:
-   *         description: ${responseObj?.description}
+   *       ${vars.responseCode}:
+   *         description: ${vars.responseDesc}
    *         content:
-   *           ${mimeType}:
+   *           ${vars.responseType}:
    *             schema:
    *               type: string
    *         headers:
    *           Content-Type:
    *             schema:
    *               type: string
-   *               example: ${mimeType}
+   *               example: ${vars.responseType}
    */
-  async ${method} (req, res) {
-    res.setHeader('Content-Type', '${mimeType}');
-    res.status(${code}).send();
-  }`);
-          }
-        }
-      }
-
-      const blocks: string = routeBlocks.join(',\n');
-      const output: string = `'use strict';\n\nmodule.exports = {\n${blocks}\n};\n`;
-
-      fs.writeFileSync(`${outDir}/${fileName}`, output, 'utf8');
-    }
-
-  } catch (err) {
-    console.error('Failed to parse file',err);
-  }
+  async ${vars.requestMethod} (req, res) {
+    res.setHeader('Content-Type', '${vars.responseType}');
+    res.status(${vars.responseCode}).send();
+  }`;
 }
 
 /**

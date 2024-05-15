@@ -17,3 +17,12 @@ export declare namespace ApiSchema {
   export type ResponseObject  = OpenAPIV3.ResponseObject;
   export type HttpMethod      = valueof<OpenAPIV3.HttpMethods>;
 }
+
+export interface RouteConfigItem {
+  routePath: string,
+  requestMethod: string,
+  operationDesc?: string,
+  responseDesc?: string,
+  responseType: string,
+  responseCode: string
+}
