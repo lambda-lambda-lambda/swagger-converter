@@ -96,7 +96,7 @@ export async function createApp(file: string, outPath: string = './'): Promise<v
     }
 
   } catch (err) {
-    console.error('Failed to parse file',err);
+    console.error('Conversion failed to complete', err);
   }
 }
 
