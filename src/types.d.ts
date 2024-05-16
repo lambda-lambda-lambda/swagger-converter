@@ -14,12 +14,14 @@ type valueof<T> = T[keyof T];
 export declare namespace ApiSchema {
   export type Document        = OpenAPI.Document;
   export type OperationObject = OpenAPI.Operation;
+  export type ParameterObject = OpenAPIV3.ParameterObject;
   export type ResponseObject  = OpenAPIV3.ResponseObject;
   export type HttpMethod      = valueof<OpenAPIV3.HttpMethods>;
 }
 
 export interface RouteConfigItem {
   routePath: string,
+  paramPathName?: string,
   requestMethod: string,
   operationDesc?: string,
   responseDesc?: string,

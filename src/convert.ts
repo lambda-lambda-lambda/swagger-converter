@@ -25,8 +25,8 @@ import {ApiSchema, RouteConfigItem} from './types';
 export async function createApp(file: string, outPath: string = './'): Promise<void> {
   try {
     const docObject: ApiSchema.Document = await SwaggerParser.parse(file);
-    const infoObj:   ApiSchema.Document['info'] = docObject.info;
-    const pathsObj:  ApiSchema.Document['paths'] = docObject.paths;
+    const infoObj:   ApiSchema.Document['info']  = docObject.info;
+    const pathsObj:  ApiSchema.Document['paths'] = docObject.paths || {};
 
     const name: string = (isValidName(infoObj.title))
       ? camelCase(infoObj.title)
@@ -46,21 +46,32 @@ export async function createApp(file: string, outPath: string = './'): Promise<v
     await createFiles(appConfig, outPath);
 
     // Generate custom routes.
-    for (let pattern in pathsObj) {
-      const filePath: string = path.dirname(pattern);
-      const fileName: string = pascalCase(path.basename(pattern)) + '.js';
+    let routeConfigItems: string[] = [];
+    let isRouteResource: boolean;
 
-      const outDir = `${outPath}/${paramCase(name)}/${name}/src/routes/${filePath}`;
+    const paths = Object.keys(pathsObj).reverse();
 
-      !fs.existsSync(outDir) && fs.mkdirSync(outDir, {recursive: true});
+    paths.forEach((pattern, index) => {
+      const pathItemObj = pathsObj[pattern];
+      const parameters = pathItemObj?.parameters || [] as ApiSchema.ParameterObject[];
 
-      const routeConfigItems: string[] = [];
+      const basePath: string = path.dirname(pattern);
+      let baseName: string = path.basename(pattern);
+
+      const pathParamNames = baseName.match(/\{(.*)\}/) || [];
+
+      if (pathParamNames) {
+        baseName = (parameters.find(
+          (o: any) => (o.in === 'path' && o.name === pathParamNames[0])
+        ) as ApiSchema.ParameterObject)?.name || '';
+      }
+
+      const nextPath: string | undefined = paths.at(index + 1);
+      isRouteResource = !!(nextPath && new RegExp(nextPath).test(pattern));
 
       //
       // O-hoy mate'y! Thar be (𝑛) recursion ahead..
       //
-      const pathItemObj = pathsObj[pattern];
-
       for (let method in pathItemObj) {
         const operationObj = pathItemObj[method as keyof ApiSchema.HttpMethod] as ApiSchema.OperationObject;
         const responses = operationObj?.responses;
@@ -74,6 +85,7 @@ export async function createApp(file: string, outPath: string = './'): Promise<v
             // Generate block from template.
             const routeItem: string = genRouteItem({
               routePath: pattern,
+              paramPathName: pathParamNames[0],
               requestMethod: method,
               operationDesc: operationObj?.description,
               responseDesc: responseObj?.description,
@@ -86,14 +98,23 @@ export async function createApp(file: string, outPath: string = './'): Promise<v
         }
       }
 
-      const blocks = routeConfigItems.join(',\n');
+      if (isRouteResource === false) {
+        const outFile: string = pascalCase(path.basename(pattern)) + '.js';
+        const outDir = `${outPath}/${paramCase(name)}/${name}/src/routes/${basePath}`;
 
-      fs.writeFileSync(
-        `${outDir}/${fileName}`,
-        `'use strict';\n\nmodule.exports = {\n${blocks}\n};\n`,
-        'utf8'
-      );
-    }
+        !fs.existsSync(outDir) && fs.mkdirSync(outDir, {recursive: true});
+
+        const output = routeConfigItems.reverse().join(',\n');
+
+        fs.writeFileSync(
+          `${outDir}/${outFile}`,
+          `'use strict';\n\nmodule.exports = {\n${output}\n};\n`,
+          'utf8'
+        );
+
+        routeConfigItems = [];
+      }
+    });
 
   } catch (err) {
     console.error('Conversion failed to complete', err);
@@ -104,13 +125,25 @@ export async function createApp(file: string, outPath: string = './'): Promise<v
  * Generate a route config item (output block).
  */
 function genRouteItem(vars: RouteConfigItem): string {
-  return `
+  let block = `
   /**
    * @openapi
    *
    * ${vars.routePath}:
    *   ${vars.requestMethod}:
-   *     description: ${vars?.operationDesc}
+   *     description: ${vars?.operationDesc}`;
+
+  if (vars.paramPathName) {
+    block += `
+   *     parameters:
+   *       - in: path
+   *         name: ${vars.paramPathName}
+   *         schema:
+   *           type: string
+   *         required: true`;
+  }
+
+  block += `
    *     responses:
    *       ${vars.responseCode}:
    *         description: ${vars.responseDesc}
@@ -124,10 +157,12 @@ function genRouteItem(vars: RouteConfigItem): string {
    *               type: string
    *               example: ${vars.responseType}
    */
-  async ${vars.requestMethod} (req, res) {
+  async ${vars.requestMethod} (req, res${vars.paramPathName ? ', id' : ''}) {
     res.setHeader('Content-Type', '${vars.responseType}');
     res.status(${vars.responseCode}).send();
   }`;
+
+  return block;
 }
 
 /**
