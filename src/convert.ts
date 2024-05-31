@@ -104,7 +104,7 @@ export async function createApp(file: string, outPath: string = './'): Promise<v
 
         !fs.existsSync(outDir) && fs.mkdirSync(outDir, {recursive: true});
 
-        const output = routeConfigItems.reverse().join(',\n');
+        const output: string = routeConfigItems.reverse().join(',\n');
 
         fs.writeFileSync(
           `${outDir}/${outFile}`,
@@ -159,7 +159,7 @@ function genRouteItem(vars: RouteConfigItem): string {
    */
   async ${vars.requestMethod} (req, res${vars.paramPathName ? ', id' : ''}) {
     res.setHeader('Content-Type', '${vars.responseType}');
-    res.status(${vars.responseCode}).send();
+    res.status(${vars.responseCode}).send(req.param());
   }`;
 
   return block;
