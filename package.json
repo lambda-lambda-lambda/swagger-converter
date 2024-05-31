@@ -29,10 +29,10 @@
   "license": "MIT",
   "dependencies": {
     "@apidevtools/swagger-parser": "^10.1.0",
-    "@lambda-lambda-lambda/cli": "0.6.3"
+    "@lambda-lambda-lambda/cli": "0.6.5"
   },
   "devDependencies": {
-    "@lambda-lambda-lambda/types": "^0.0.1",
+    "@lambda-lambda-lambda/types": "^0.0.2",
     "@types/node": "^20.12.7",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
