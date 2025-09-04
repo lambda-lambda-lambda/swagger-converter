@@ -4,7 +4,7 @@ Convert a [Swagger/OpenAPI schema](https://swagger.io/docs/specification/basic-s
 
 ## How it works
 
-This script parses the supported schema definitions (e.g [API General Info](https://swagger.io/docs/specification/api-general-info), [Paths and Operations](https://swagger.io/docs/specification/paths-and-operations/)) and scaffolds a L³ application with predefined [route](https://github.com/lambda-lambda-lambda/manual/blob/master/ComplexRouting.md#route-handler)/[resource](https://github.com/lambda-lambda-lambda/manual/blob/master/ComplexRouting.md#resource-handler) handlers.
+This command-line script parses the supported schema definitions (e.g [API General Info](https://swagger.io/docs/specification/api-general-info), [Paths and Operations](https://swagger.io/docs/specification/paths-and-operations)) and scaffolds a new L³ application with predefined [route](https://github.com/lambda-lambda-lambda/manual/blob/master/ComplexRouting.md#route-handler)/[resource](https://github.com/lambda-lambda-lambda/manual/blob/master/ComplexRouting.md#resource-handler) handlers.
 
 For example, the JSON schema definition below, when parsed..
 
