@@ -37,7 +37,7 @@ export async function createApp(file: string, outPath: string = './'): Promise<v
       name,
       description: infoObj?.description || 'Swagger converted custom L³ application',
       prefix: '/',
-      asynchronous: 'true',
+      asynchronous: true,
       timeout: '15',
       sdkVersion: '3',
       runtime: 'nodejs20.x'
