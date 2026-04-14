@@ -33,12 +33,12 @@
   },
   "devDependencies": {
     "@lambda-lambda-lambda/types": "^0.0.3",
-    "@types/node": "^20.19.13",
+    "@types/node": "^25.6.0",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "chai": "^4.5.0",
     "eslint": "^8.57.1",
     "mocha": "^10.8.2",
-    "typescript": "^5.9.2"
+    "typescript": "^6.0.2"
   }
 }
