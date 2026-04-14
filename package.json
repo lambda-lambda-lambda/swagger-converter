@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "tsc -p ./",
-    "lint": "eslint src test --ext .js,.ts,.tsx",
+    "lint": "eslint src test",
     "prepack": "npm run compile",
     "test": "npm run compile && mocha --require test/mocha.env.js 'test/**/*.js'",
     "watch": "tsc -watch -p ./"
@@ -32,13 +32,13 @@
     "@lambda-lambda-lambda/cli": "0.6.6"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@lambda-lambda-lambda/types": "^0.0.3",
     "@types/node": "^25.6.0",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
     "chai": "^4.5.0",
-    "eslint": "^8.57.1",
+    "eslint": "^10.2.0",
     "mocha": "^10.8.2",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.58.2"
   }
 }

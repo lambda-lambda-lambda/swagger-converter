@@ -1,7 +1,7 @@
 .github
-.eslintrc
 .gitattributes
 .vscode
+esling.config.mjs
 src
 test
 tsconfig.json
