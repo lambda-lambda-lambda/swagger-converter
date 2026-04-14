@@ -17,6 +17,7 @@ export declare namespace ApiSchema {
   export type ParameterObject = OpenAPIV3.ParameterObject;
   export type ResponseObject  = OpenAPIV3.ResponseObject;
   export type HttpMethod      = valueof<OpenAPIV3.HttpMethods>;
+  export type Parameters      = valueof<OpenAPIV3.ParameterObject>;
 }
 
 export interface RouteConfigItem {

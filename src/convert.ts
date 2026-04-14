@@ -61,8 +61,9 @@ export async function createApp(file: string, outPath: string = './'): Promise<v
       const pathParamNames = baseName.match(/\{(.*)\}/) || [];
 
       if (pathParamNames) {
+        // eslint-disable-next-line no-useless-assignment
         baseName = (parameters.find(
-          (o: any) => (o.in === 'path' && o.name === pathParamNames[0])
+          (o: ApiSchema.Parameters) => (o.in === 'path' && o.name === pathParamNames[0])
         ) as ApiSchema.ParameterObject)?.name || '';
       }
 
@@ -72,15 +73,15 @@ export async function createApp(file: string, outPath: string = './'): Promise<v
       //
       // O-hoy mate'y! Thar be (𝑛) recursion ahead..
       //
-      for (let method in pathItemObj) {
+      for (const method in pathItemObj) {
         const operationObj = pathItemObj[method as keyof ApiSchema.HttpMethod] as ApiSchema.OperationObject;
         const responses = operationObj?.responses;
 
-        for (let code in responses) {
+        for (const code in responses) {
           const responseObj = responses[code] as ApiSchema.ResponseObject;
           const content = responseObj?.content;
 
-          for (let mimeType in content) {
+          for (const mimeType in content) {
 
             // Generate block from template.
             const routeItem: string = genRouteItem({
@@ -102,7 +103,9 @@ export async function createApp(file: string, outPath: string = './'): Promise<v
         const outFile: string = pascalCase(path.basename(pattern)) + '.js';
         const outDir = `${outPath}/${paramCase(name)}/${name}/src/routes/${basePath}`;
 
-        !fs.existsSync(outDir) && fs.mkdirSync(outDir, {recursive: true});
+        if (!fs.existsSync(outDir)) {
+          fs.mkdirSync(outDir, {recursive: true});
+        }
 
         const output: string = routeConfigItems.reverse().join(',\n');
 
